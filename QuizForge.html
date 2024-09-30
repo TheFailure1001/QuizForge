@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizForge</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            text-align: center;
+            background: #333;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>QuizForge</h1>
+        <h2>Create Your Vocabulary Quiz</h2>
+    </header>
+    <main>
+        <div id="quizForm">
+            <input type="text" id="word" placeholder="Enter Word" required>
+            <input type="text" id="definition" placeholder="Enter Definition" required>
+            <button onclick="addWord()">Add Word</button>
+        </div>
+        <div id="quizContainer">
+            <h3>Your Vocabulary Quiz</h3>
+            <ul id="quizList"></ul>
+            <button onclick="startQuiz()">Start Quiz</button>
+        </div>
+    </main>
+    <script>
+        let vocabList = [];
+
+        function addWord() {
+            const wordInput = document.getElementById('word');
+            const definitionInput = document.getElementById('definition');
+
+            const word = wordInput.value.trim();
+            const definition = definitionInput.value.trim();
+
+            if (word && definition) {
+                vocabList.push({ word, definition });
+                wordInput.value = '';
+                definitionInput.value = '';
+                displayVocab();
+            } else {
+                alert("Please enter both a word and a definition.");
+            }
+        }
+
+        function displayVocab() {
+            const quizList = document.getElementById('quizList');
+            quizList.innerHTML = '';
+
+            vocabList.forEach((item) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${item.word}: ${item.definition}`;
+                quizList.appendChild(listItem);
+            });
+        }
+
+        function startQuiz() {
+            if (vocabList.length === 0) {
+                alert("Please add some words before starting the quiz.");
+                return;
+            }
+
+            alert("Quiz started! Use the console to check the questions and answers.");
+            vocabList.forEach(item => {
+                const userAnswer = prompt(`What is the definition of "${item.word}"?`);
+                if (userAnswer.toLowerCase() === item.definition.toLowerCase()) {
+                    console.log(`Correct! "${item.word}" means "${item.definition}".`);
+                } else {
+                    console.log(`Wrong! "${item.word}" means "${item.definition}".`);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
